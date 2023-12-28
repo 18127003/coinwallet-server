@@ -1,0 +1,27 @@
+# fly.toml file generated for coinwallet on 2023-04-01T21:28:32+07:00
+
+app = "coinwallet"
+kill_signal = "SIGINT"
+kill_timeout = 5
+primary_region = "hkg"
+
+[build]
+  image = "coinwallet:0.0.1-SNAPSHOT"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
